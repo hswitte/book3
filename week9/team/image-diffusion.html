@@ -79,31 +79,76 @@
 var items   // global scope (i.e., can be accessed in javascript console)
 
 function solution1(){
-    return 'TODO'
+    var unique = _.uniq(items, 'Image Id Str')
+    return unique.length
 }
 
 function solution2(){
-    return 'TODO'
+    var unique = _.uniq(items, 'Original User Name')
+    return unique.length
 }
 
 function solution3(){
-    return 'TODO'
+    var image = _.filter(items, function(n){
+        return n['Image Id Str'] == 592674938273865700 && n.Rt == "Retweet"
+    })
+    return image.length
 }
 
 function solution4(){
-    return 'TODO'
+    var groups = _.groupBy(items, 'Image Id Str')
+    var map = _.map(groups, function(v,k){
+        return {"ID": k, "count": v.length}
+    })
+    return _.max(map, "count").ID
 }
 
 function solution5(){
-    return 'TODO'
+    var filter = _.filter(items, function(n){
+       return n.Rt == 'Original Tweet (probably)' && n["* Tweet Created At"].split(' ')[0] == '4/26/15'
+    })
+
+    return filter.length
 }
 
 function solution6(){
-    return 'TODO'
+    var filter = _.filter(items, function(n){
+        return n.Rt == 'Original Tweet (probably)' && n["* Tweet Created At"].split(' ')[0] == '4/26/15'
+    })
+    var filter2 = _.filter(items, function(n){
+        return n.Rt == 'Retweet'
+    })
+
+    var groups = _.groupBy(filter2, 'Image Id Str')
+    console.log(groups)
+    var map = _.map(filter2, function(d){
+        var count = _.size(groups[d["Image Id Str"]])
+        var obj = {ID:d["Image Id Str"], count:count}
+        return obj
+    })
+
+    return _.max(map, "count").count
 }
 
 function solution7(){
-    return 'TODO'
+    var filter = _.filter(items, function(n){
+        return n.Rt == 'Original Tweet (probably)' && n["* Tweet Created At"].split(' ')[0] == '4/26/15'
+    })
+    var filter2 = _.filter(items, function(n){
+        return n.Rt == 'Retweet'
+    })
+
+    var groups = _.groupBy(filter2, 'Image Id Str')
+    console.log(groups)
+    var map = _.map(filter2, function(d){
+        var count = _.size(groups[d["Image Id Str"]])
+        var obj = {ID:d["Image Id Str"], count:count}
+        return obj
+    })
+    
+    var sum = _.sum(map, "count")
+    //console.log(sum)
+    return sum/map.length
 }
 
 function solution8(){
@@ -115,15 +160,64 @@ function solution8(){
     // http://momentjs.com/docs/#/durations/add/
     // http://momentjs.com/docs/#/query/is-before/
     console.log(momentCreatedAt)
-    return 'TODO'
+
+    var filter = _.filter(items, function(n){
+        return n['* Original Tweet Created At'].split(' ')[0] == '4/26/15' && n.Rt == 'Retweet'
+    })
+
+    console.log(filter.length)
+    var times = _.filter(filter, function(n){ 
+        orig_time =  new Date(n['* Original Tweet Created At'])
+        retweet_time =  new Date(n['* Tweet Created At'])
+        
+        o = moment(orig_time)
+        p = o.add(1,'hour')
+        r = moment(retweet_time)    
+        return r < p
+    })  
+    var groups = _.groupBy(times, 'Image Id Str')
+    var map = _.mapValues(groups, function(n){
+        return n.length
+    })
+    console.log(map)
+    return _.size(map)
 }
 
 function solution9(){
-    return 'TODO'
+    var filter = _.filter(items, function(n){
+        return n.Rt == 'Original Tweet (probably)' && n["* Tweet Created At"].split(' ')[0] == '4/26/15'
+    })
+    var filter2 = _.filter(items, function(n){
+        return n.Rt == 'Retweet'
+    })
+
+    var groups = _.groupBy(filter2, 'Image Id Str')
+
+    var map = _.mapValues(groups, function(n){
+        return n.length
+    })
+    var sorted = _.sortBy(_.pairs(map), function(d){
+        return d[1]
+    })
+    
+    
+    console.log(sorted)
+    var rev =  sorted.reverse()
+    console.log(rev)
+    var slice = _.slice(rev, 0, 10)
+
+
+    console.log(_.object(slice))
+    return _.values(slice)
 }
 
 function solution10(){
-    return 'TODO'
+            // "http://pbs.twimg.com/media/CDhv7F0UUAAg9J9.jpg"
+            // "http://pbs.twimg.com/media/CDe9RPUWYAAKBJ2.jpg":yes,
+            // "http://pbs.twimg.com/media/CDezYowWMAAUgUR.jpg":yes, 
+            // "http://pbs.twimg.com/media/CDg49Z1W0AE9mN7.jpg":yes,
+            // "http://pbs.twimg.com/media/CDe_oTKW0AAqgZJ.jpg":yes,
+    return 5
 }
 
 function run(id, solutionFunc, data){

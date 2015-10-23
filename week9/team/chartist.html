@@ -75,18 +75,89 @@ function solution2(){
 
 
 function solution3(){
+  var groups = _.groupBy(items, 'CrsPBADept')
+
+    var counts = _.mapValues(groups, function(g){
+       if (g.length > 99) return g.length 
+    })
+
+    var counts2 = _.omit(counts, _.isUndefined)
+    //console.log(counts2)
+
+    var data = {
+          labels: _.keys(counts2),
+          series: [
+            _.values(counts2)
+          ]
+    }
+
+    new Chartist.Bar('#q3 .answer', data);
 }
 
 function solution4(){
+  var groups = _.groupBy(items, 'CrsPBADept')
+  var counts = _.mapValues(groups, function(g){
+    return g.length
+  })
+
+  var sorted = _.sortBy(_.pairs(counts), function(d){
+  return d[1]
+})
+  sorted = sorted.reverse()
+  console.log(sorted)
+  var slice = _.slice(sorted, 0, 10)
+  //console.log(slice)
+  slice = _.object(slice)
+  //console.log(slice)
+
+  var data = {
+          labels: _.keys(slice),
+          series: [
+            _.values(slice)
+          ]
+    }
+  new Chartist.Bar('#q4 .answer', data);
 }
 
 function solution5(){
     // TODO: replace the hard coded values in series by actual computation
+    var hist = _.filter(items, function(n){
+      return n.CrsPBADept == "HIST"
+    })
+    var csci = _.filter(items, function(n){
+      return n.CrsPBADept == "CSCI"
+    })
+    var hist1 = _.filter(hist, function(n){
+      return n.CrsLvlNum == "1XXX"
+    })
+    var hist2 = _.filter(hist, function(n){
+      return n.CrsLvlNum == "2XXX"
+    })
+    var hist3 = _.filter(hist, function(n){
+      return n.CrsLvlNum == "3XXX"
+    })
+    var hist4 = _.filter(hist, function(n){
+      return n.CrsLvlNum == "4XXX"
+    })
+    var csci1 = _.filter(csci, function(n){
+      return n.CrsLvlNum == "1XXX"
+    })
+    var csci2 = _.filter(csci, function(n){
+      return n.CrsLvlNum == "2XXX"
+    })
+    var csci3 = _.filter(csci, function(n){
+      return n.CrsLvlNum == "3XXX"
+    })
+    var csci4 = _.filter(csci, function(n){
+      return n.CrsLvlNum == "4XXX"
+    })
+    console.log(hist)
+    console.log(hist1)
     var data = {
           labels: ['1xxx', '2xxx', '3xxx', '4xxx'],
           series: [
-            [20,30,40,50],  // CSCI
-            [30,30,30,30]   // HIST
+            [csci1.length, csci2.length, csci3.length, csci4.length],  // CSCI
+            [hist1.length, hist2.length, hist3.length, hist4.length]   // HIST
           ]
     }
     new Chartist.Bar('#q5 .answer', data);
