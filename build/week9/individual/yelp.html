@@ -87,35 +87,117 @@ function solution2(){
 function solution3(){
     var businessesInGilbert = _.filter(items, {city: 'Gilbert'})
     // TODO: find McDonloads and compute the distance between the first two
-    return 'TODO'
+    var filter = _.filter(businessesInGilbert, {name: "McDonald's"})
+    //console.log(filter)
+    var loc1 = {latitude: filter[0].latitude, longitude: filter[0].longitude}
+    var loc2 = {latitude: filter[1].latitude, longitude: filter[1].longitude}
+    return geolib.getDistance(loc1,loc2)/1000 + ' km'
 }
 
 function solution4(){
-    return 'TODO'
+    var businessesInPhoenix = _.filter(items, {city: 'Phoenix'})
+    var filter = _.filter(businessesInPhoenix, {name: "McDonald's"})
+    var lat = _.pluck(filter, 'latitude')
+    var lon = _.pluck(filter, 'longitude')
+    var latitude = _.sum(lat)/lat.length
+    var longitude = _.sum(lon)/lon.length
+    //console.log(lat)
+    //console.log(lon)
+    return "latitude: " + latitude + ", longitude: " + longitude
 }
 
 function solution5(){
-    return 'TODO'
+    var businessesInPhoenix = _.filter(items, {city: 'Phoenix'})
+    var mcd = _.filter(businessesInPhoenix, {name: "McDonald's"})
+    var star = _.filter(businessesInPhoenix, {name: "Starbucks"})
+    //console.log(mcd)
+    //console.log(star)
+    console.log(star.length)
+    if (mcd.length > star.length) return "There are more McDonald's"
+    else if (star.length > mcd.length) return "There are more Starbucks"
+    else return "There are the same number of McDonald's and Starbucks"
 }
 
 function solution6(){
-    return 'TODO'
+    var businessesInPhoenix = _.filter(items, {city: 'Phoenix'})
+    var star = _.filter(businessesInPhoenix, {name: "Starbucks"})
+    var max_rev = _.max(star, 'review_count')
+    //console.log(max_rev)
+    return "The Starbucks located at " + max_rev.full_address + " has the most reviews with " + max_rev.review_count
 }
 
 function solution7(){
-    return 'TODO'
+    var businessesInPhoenix = _.filter(items, {city: 'Phoenix'})
+    var star = _.filter(businessesInPhoenix, {name: "Starbucks"})
+    var max_rev = _.max(star, 'review_count')
+    var star_loc = {latitude: max_rev.latitude, longitude: max_rev.longitude}
+
+    var mcd = _.filter(businessesInPhoenix, {name: "McDonald's"})
+    var distances = _.mapValues(mcd, function(n){
+        return {loc: n.full_address, distance: geolib.getDistance(star_loc,{latitude: n.latitude, longitude: n.longitude})/1000}
+    })
+    var min_dist = _.min(distances, 'distance')
+    return "The McDonald's located at " + min_dist.loc + " is the closest, at a distance of " + min_dist.distance + " km"
+    //return geolib.getDistance(loc1,loc2)/1000 + ' km'
 }
 
 function solution8(){
-    return 'TODO'
+    var businessesInPhoenix = _.filter(items, {city: 'Phoenix'})
+    var star = _.filter(businessesInPhoenix, {name: "Starbucks"})
+    var max_rev = _.max(star, 'review_count')
+    var star_loc = {latitude: max_rev.latitude, longitude: max_rev.longitude}
+
+    var coffee = _.filter(businessesInPhoenix, function(n){
+        return _.contains(n.categories, "Coffee & Tea")
+    })
+    //console.log(coffee)
+    var distances = _.mapValues(coffee, function(n){
+        return {loc: n.full_address, distance: geolib.getDistance(star_loc,{latitude: n.latitude, longitude: n.longitude})/1000}
+    })
+    //console.log(distances)
+    var count = _.filter(distances, function(n){
+        return n.distance <= 2
+    })
+    //console.log(count)
+    return count.length
 }
 
 function solution9(){
-    return 'TODO'
+    var businessesInPhoenix = _.filter(items, {city: 'Phoenix'})
+    var mcd = _.filter(businessesInPhoenix, {name: "McDonald's"})
+    var north = _.max(mcd, 'latitude')
+    var south = _.min(mcd, 'latitude')
+    return "The northern-most McDonald's is located at " + north.full_address + " and the southern-most McDonald's is located at " + south.full_address
 }
 
 function solution10(){
-    return 'TODO'
+    var businessesInPhoenix = _.filter(items, {city: 'Phoenix'})
+    var mcd = _.filter(businessesInPhoenix, {name: "McDonald's"})
+    var star = _.filter(businessesInPhoenix, {name: "Starbucks"})
+    //var dist = _.forEach(mcd, function(m){
+    //    _.forEach(star, function(s){
+    //        if (geolib.getDistance({latitude: s.latitude, longitude: s.longitude},{latitude: m.latitude, longitude: m.longitude}/1000) < 5) return m
+    //    })
+    //})
+    var distances = _.mapValues(mcd, function(n){
+        return {loc: n.full_address, 
+                dist1: geolib.getDistance({latitude: star[0].latitude, longitude: star[0].longitude},{latitude: n.latitude, longitude: n.longitude})/1000, 
+                dist2: geolib.getDistance({latitude: star[1].latitude, longitude: star[1].longitude},{latitude: n.latitude, longitude: n.longitude})/1000, 
+                dist3: geolib.getDistance({latitude: star[2].latitude, longitude: star[2].longitude},{latitude: n.latitude, longitude: n.longitude})/1000,
+                dist4: geolib.getDistance({latitude: star[3].latitude, longitude: star[3].longitude},{latitude: n.latitude, longitude: n.longitude})/1000,
+                dist5: geolib.getDistance({latitude: star[4].latitude, longitude: star[4].longitude},{latitude: n.latitude, longitude: n.longitude})/1000,
+                dist6: geolib.getDistance({latitude: star[5].latitude, longitude: star[5].longitude},{latitude: n.latitude, longitude: n.longitude})/1000,
+                dist7: geolib.getDistance({latitude: star[6].latitude, longitude: star[6].longitude},{latitude: n.latitude, longitude: n.longitude})/1000,
+                dist8: geolib.getDistance({latitude: star[7].latitude, longitude: star[7].longitude},{latitude: n.latitude, longitude: n.longitude})/1000}
+    })
+    var filter = _.filter(distances, function(n){
+        return n.dist1 > 5 && n.dist2 > 5 && n.dist3 > 5 && n.dist4 > 5 && n.dist5 > 5 && n.dist6 > 5 && n.dist7 > 5 && n.dist8 > 5
+    })
+    console.log(distances)
+    console.log(filter)
+
+    return "The McDonald's with no Starbucks nearby are located at " + filter[0].loc + ", " + filter[1].loc + ", and " + filter[2].loc
+    
 }
 
 function run(id, solutionFunc, data){
