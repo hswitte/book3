@@ -60,30 +60,74 @@ Our team chose to analyze candidate locations for (fill in the business type).
 
 The team members who contributed to this hackathon are:
 
-- (Name)
-- (Name)
-- (Name)
-- (Name)
-- (Name)
-- (Name)
+- Heather Witte
+- Denis Kazakov
+- Kari Santos
+- Fadhil Suhendi
+- Zach Lamb
 
 ### 20 Questions
 
 Our team came up with the following relevant questions:
 
-1. Does the location have ..... ? contributed by (Name)
+1. Are there other 24-hour diners located within 2 kilometers?  (Zach)
 
-  (one sentence justification why this question is important)
+  You don't want to be too close to another 24-hour restaurant
 
-1. Does the location have ..... ? contributed by (Name)
+1. Are there any 24-hour non-restaurant businesses within 2 kilometers? (Kari)
 
-  (one sentence justification why this question is important)
+  You want to be near other places that are open 24-hours/day.
 
-1. Does the location have ..... ? contributed by (Name)
+1. Are there any clubs within 2 kilometers? 
 
-  (one sentence justification why this question is important)
+  You want to be near the night-life of the city.
 
-(add more until you hit 20)
+4. Are there any bars within 2 kilometers?
+
+	You want to be near the night-life of the city.
+
+5. Are there any music venues within 2 kilometers?
+
+	You want to be near the night-life of the city.
+
+6. Are there any movie theaters within 2 kilometers? (no movie theaters)
+
+	You want to be near the night-life of the city.
+
+7. Are there any 3-star -or-less establishments within 2 kilometers?
+
+8. Are there any low price-range (1) restaurants within 2 kilometers? (Heather)
+
+9. Are there any thrift stores within 2 kilometers?
+
+10. Are there any colleges/universities within 2 kilometers?
+
+	College students are up late at night.
+
+11. Are there dive bars and no wine bars within 2 kilometers?
+
+12. Are there hospitals within 2 kilometers? (Heather) 
+
+13. Are there hotels within 2 kilometers?
+
+14. Are there retirement homes within 2 kilometers? (1 retirement)
+
+15. Are there trendy/upscale establishments within 2 kilometers?
+
+16. Are there establishments that serve alcohol within 2 kilometers?
+
+17. Are there dry cleaning/laundry businesses within 2 kilometers?
+
+18. Are there elementary/high schools within 2 kilometers? 
+
+19. Do establishments within 2 kilometers require formal attire? 
+
+20. Are there a lot of nightlife establishments nearby?
+
+21. Are there dive bars within 2 kilometers?
+
+22. Are there religious organizations within 2 kilometers?
+
 
 ### Conclusion
 

@@ -60,7 +60,7 @@ function has_at_least_one_mcdonald_within_one_mile(loc){
     var d = geolib.getDistance(loc, loc2)
     return geolib.convertUnit('mi', d) < 1
   })
-
+  //console.log(nearbyBusinesses)
   var hasAtLeastOneMcDonald = _.some(nearbyBusinesses, function (business){
     return business.name.match(/McDonald/)
   })
@@ -83,25 +83,68 @@ function has_at_least_ten_businesses_with_100_or_more_reviews_within_one_mile(lo
   return frequentlyReviewedBusinsses.length > 10
 }
 
-function has_some_feature_1(loc){
-  // TODO
-  return true
+function has_hospital_within_1_pt_5_km(loc){
+
+  var nearbyBusinesses = _.filter(items, function(item){
+    var loc2  = _.pick(item, ['latitude', 'longitude'])
+    var d = geolib.getDistance(loc, loc2)
+    return d/1000 < 1.5
+  })
+  //console.log(nearbyBusinesses)
+
+  var hospitals = _.filter(nearbyBusinesses, function (business){
+    return _.contains(business.categories, "Hospitals")
+  })
+  //console.log(hospitals)
+  return hospitals.length > 0
 }
 
-function has_some_feature_2(loc){
-  // TODO
-  return false
+function has_thrift_store_within_within_1_pt_5_km(loc){
+  var nearbyBusinesses = _.filter(items, function(item){
+    var loc2  = _.pick(item, ['latitude', 'longitude'])
+    var d = geolib.getDistance(loc, loc2)
+    return d/1000 < 1.5
+  })
+  //console.log(nearbyBusinesses)
+
+  var thrift = _.filter(nearbyBusinesses, function (business){
+    return _.contains(business.categories, "Thrift Stores")
+  })
+  //console.log(thrift)
+  return thrift.length > 0
 }
 
-function has_some_feature_3(loc){
-  // TODO
-  return true
+function has_at_least_30_restaurants_with_price_range_of_1_within_1_pt_5_km(loc){
+
+  var nearbyBusinesses = _.filter(items, function(item){
+    var loc2  = _.pick(item, ['latitude', 'longitude'])
+    var d = geolib.getDistance(loc, loc2)
+    return d/1000 < 1.5
+  })
+  //console.log(nearbyBusinesses)
+  var price = _.filter(nearbyBusinesses, function (business){
+    return business.attributes["Price Range"] == 1 && _.contains(business.categories, "Restaurants")
+  })
+  console.log(price)
+
+  return price.length > 30
 }
 
-function has_some_feature_4(loc){
-  // TODO
-  return false
+function has_at_least_30_dive_bars_within_1_pt_5_km(loc){
+  var nearbyBusinesses = _.filter(items, function(item){
+    var loc2  = _.pick(item, ['latitude', 'longitude'])
+    var d = geolib.getDistance(loc, loc2)
+    return d/1000 < 1.5
+  })
+  //console.log(nearbyBusinesses)
+  var dive = _.filter(items, function (business){
+    return _.contains(business.categories, "Dive Bars")
+  })
+  console.log(dive)
+
+  return dive.length > 30
 }
+
 // TODO: Add more scoring functions
 
 //
@@ -195,7 +238,7 @@ function loadDataThenRunSolutions(){
 
       // take only the last 2000 to speed up computation
       // TODO: comment this out before the final submission
-      items = _.takeRight(items, 2000)
+      //items = _.takeRight(items, 2000)
 
       console.log('number of items loaded:', items.length)
       console.log('first item:', items[0])
@@ -204,10 +247,10 @@ function loadDataThenRunSolutions(){
 
       scoreAndVisualize(locs, has_at_least_one_mcdonald_within_one_mile, visualize_true_or_false)
       scoreAndVisualize(locs, has_at_least_ten_businesses_with_100_or_more_reviews_within_one_mile, visualize_true_or_false)
-      scoreAndVisualize(locs, has_some_feature_1, visualize_true_or_false)
-      scoreAndVisualize(locs, has_some_feature_2, visualize_true_or_false)
-      scoreAndVisualize(locs, has_some_feature_3, visualize_true_or_false)
-      scoreAndVisualize(locs, has_some_feature_4, visualize_true_or_false)
+      scoreAndVisualize(locs, has_hospital_within_1_pt_5_km, visualize_true_or_false)
+      scoreAndVisualize(locs, has_thrift_store_within_within_1_pt_5_km, visualize_true_or_false)
+      scoreAndVisualize(locs, has_at_least_30_restaurants_with_price_range_of_1_within_1_pt_5_km, visualize_true_or_false)
+      scoreAndVisualize(locs, has_at_least_30_dive_bars_within_1_pt_5_km, visualize_true_or_false)
 
    })
    .fail(function(err){
