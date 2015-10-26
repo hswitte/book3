@@ -359,12 +359,12 @@ function solution10(){
 
     _.forEach(mcd, function(d){
         var latlng = [d['latitude'], d['longitude']]
-        L.circle(latlng, 1000, {color: 'red'}).addTo(map)
+        L.circle(latlng, 500, {color: 'red'}).addTo(map)
     })
 
     _.forEach(bk, function(d){
         var latlng = [d['latitude'], d['longitude']]
-        L.circle(latlng, 1000, {color: 'yellow'}).addTo(map)
+        L.circle(latlng, 500, {color: 'yellow'}).addTo(map)
     })
 }
 
