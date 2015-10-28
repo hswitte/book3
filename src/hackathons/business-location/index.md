@@ -96,9 +96,15 @@ Our team came up with the following relevant questions:
 
 7. Are there any 3-star -or-less establishments within 2 kilometers?
 
+	You don't want highly-rated competition nearby. 
+
 8. Are there any low price-range (1) restaurants within 2 kilometers? (Heather)
+	
+	Diners are inexpensive establishments, so you want to be near other inexpensive establishments
 
 9. Are there any thrift stores within 2 kilometers?
+
+	Thrift stores and diners go hand-in-hand.
 
 10. Are there any colleges/universities within 2 kilometers?
 
@@ -106,27 +112,45 @@ Our team came up with the following relevant questions:
 
 11. Are there dive bars and no wine bars within 2 kilometers?
 
+	Diners are divey, and not classy (like wine bars), so you want to be near similar establishments.
+
 12. Are there hospitals within 2 kilometers? (Heather) 
+
+	Hospitals are 24-hour operations; employees and people visiting sick loved-ones may want to eat chili cheese fries at 3 am.
 
 13. Are there hotels within 2 kilometers?
 
+	People vising Phoenix from out of town may want something to eat when they arrive to/leave town late at night.
+
 14. Are there retirement homes within 2 kilometers? (1 retirement)
+
+	The nostalgia of diners from the 50s will attract an older demographic.
 
 15. Are there trendy/upscale establishments within 2 kilometers?
 
+	Diners are not upscale, so you don't want to be located in an upscale neighborhood. 
+
 16. Are there establishments that serve alcohol within 2 kilometers?
 
+	After drinking, people may want to get something to eat.
+
 17. Are there dry cleaning/laundry businesses within 2 kilometers?
+
+	When people do their laundry late at night, they may get hungry.
 
 18. Are there elementary/high schools within 2 kilometers? 
 
 19. Do establishments within 2 kilometers require formal attire? 
 
 20. Are there a lot of nightlife establishments nearby?
+	
+	You want to be near the night-life of the city.
 
 21. Are there dive bars within 2 kilometers?
 
 22. Are there religious organizations within 2 kilometers?
+
+23. Are there establishments good for "late night" nearby?
 
 
 ### Conclusion
@@ -134,3 +158,5 @@ Our team came up with the following relevant questions:
 Our team collectively has implemented (N) scoring functions. Based on
 the scores, our team recommends location (1, 2, 3, 4, 5, or 6 from west to east),
 because it receives (m) out of (N) possible scores.
+
+Heather implemented 4 scoring functions. Based on the scores, she recommends location 3 because it received 4 out of 4 possible scores.
