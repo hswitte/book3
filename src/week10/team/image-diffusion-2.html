@@ -48,7 +48,7 @@
       <div id="questions" class="collection with-header">
           <div class="collection-header">Questions</div>
           <section id="q1" class="question collection-item">
-              <h4>How many users tweeted in a language different from their user language (i.e. tweet language different from user language)?(contributed by Heather)</h4>
+              <h4>What language are the tweets in this dataset written in?(contributed by Heather)</h4>
               <div class="answer"></div>
           </section>
 
@@ -94,9 +94,7 @@
 
 Discuss some findings
 
-# Heading 2
 
-Discuss some findings
 
     </div>
   </div>
@@ -111,12 +109,14 @@ Discuss some findings
 var items   // global scope (i.e., can be accessed in javascript console)
 
 function solution1(){
-  var filter = _.filter(items, function(n){
-    return n["Tweet Language"] != n["User Language"]
-  })
-  var groups = _.groupBy(filter, "Original User Screen Name")
-  console.log(groups)
-  return 'TODO'
+
+  var grouplang = _.groupBy(items, "Tweet Language")
+
+  var map = _.map(grouplang, function(v,k){
+        return {"language": k, "count": v.length}
+    })
+
+  return "From the dataset of " + items.length + " tweets, there were " + map[0].count + " tweets in " + map[0].language + " and " + map[1].count + " tweets in " + map[1].language + "."
 }
 
 function solution2(){
