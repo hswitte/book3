@@ -53,7 +53,7 @@
           </section>
 
           <section id="q2" class="question collection-item">
-              <h4>question? (contributed by ???)</h4>
+              <h4>What were average retweet ratios on each day?(assumption that as days pass on, people scroll twitter less => less retweets) (contributed by Denis)</h4>
               <div class="answer"></div>
           </section>
 
@@ -120,7 +120,19 @@ function solution1(){
 }
 
 function solution2(){
-    return 'TODO'
+    retweets = _.filter(items, function(n){
+      return n.Rt == "Retweet"
+    })
+    retweetDates = _.groupBy(retweets, function(d){
+      return d["* Tweet Created At"].match(/\/[0-9]*\//)
+    })
+    dates = _.groupBy(items, function(d){
+      return d["* Tweet Created At"].match(/\/[0-9]*\//)
+    })
+    return _.map(retweetDates, function(group,key){
+      return  key + ": " + group.length/dates[key].length  + ', <br>'
+    })
+    //* Tweet Created At -> each day, divide # of retweets by size of group
 }
 
 function solution3(){
