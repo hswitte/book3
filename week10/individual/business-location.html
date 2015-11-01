@@ -12,7 +12,7 @@
 
 <div class="container">
 
-    <h1>Where should we build X?</h1>
+    <h1>Where should we build a Sushi Buffet?</h1>
 
     <section id="candidates" class="question">
         <h4>Where are the candidate locations?</h4>
@@ -38,12 +38,39 @@
 
 function getCandidateLocations(){
   var locations = []
+ 
+  locations.push({latitude: 33.44, longitude: -112.03})
   locations.push({latitude: 33.45, longitude: -112.03})
+  locations.push({latitude: 33.46, longitude: -112.03})
+
+  locations.push({latitude: 33.44, longitude: -112.04})
   locations.push({latitude: 33.45, longitude: -112.04})
+  locations.push({latitude: 33.46, longitude: -112.04})
+
+  locations.push({latitude: 33.44, longitude: -112.05})
   locations.push({latitude: 33.45, longitude: -112.05})
+  locations.push({latitude: 33.46, longitude: -112.05})
+
+  locations.push({latitude: 33.44, longitude: -112.06})
   locations.push({latitude: 33.45, longitude: -112.06})
+  locations.push({latitude: 33.46, longitude: -112.06})
+
+  locations.push({latitude: 33.44, longitude: -112.07})
   locations.push({latitude: 33.45, longitude: -112.07})
+  locations.push({latitude: 33.46, longitude: -112.07})
+
+  locations.push({latitude: 33.44, longitude: -112.08})
   locations.push({latitude: 33.45, longitude: -112.08})
+  locations.push({latitude: 33.46, longitude: -112.08})
+
+  locations.push({latitude: 33.44, longitude: -112.09})
+  locations.push({latitude: 33.45, longitude: -112.09})
+  locations.push({latitude: 33.46, longitude: -112.09})
+
+  locations.push({latitude: 33.44, longitude: -112.1})
+  locations.push({latitude: 33.45, longitude: -112.1})
+  locations.push({latitude: 33.46, longitude: -112.1})
+
   return locations
 }
 
@@ -52,29 +79,87 @@ function getCandidateLocations(){
 // Scoring Functions
 //
 
-function has_some_feature_1(loc){
+function has_no_japanese_restaurants_nearby(loc){
   // TODO
-  return true
+  var nearbyBusinesses = _.filter(items, function(item){
+  var loc2  = _.pick(item, ['latitude', 'longitude'])
+  var d = geolib.getDistance(loc, loc2)
+    return d/1000 < 1
+  })
+  //console.log(nearbyBusinesses)
+
+  var japan = _.filter(nearbyBusinesses, function (business){
+    return _.contains(business.categories, "Japanese")
+  })
+  console.log(japan)
+  return japan.length == 0
 }
 
-function has_some_feature_2(loc){
+function has_chinese_restaurants_nearby(loc){
   // TODO
-  return false
+  var nearbyBusinesses = _.filter(items, function(item){
+  var loc2  = _.pick(item, ['latitude', 'longitude'])
+  var d = geolib.getDistance(loc, loc2)
+    return d/1000 < 1.5
+  })
+  //console.log(nearbyBusinesses)
+
+  var china = _.filter(nearbyBusinesses, function (business){
+    return _.contains(business.categories, "Chinese")
+  })
+  console.log(china)
+  return china.length > 0
 }
 
-function has_some_feature_3(loc){
+function has_non_restaurants_nearby(loc){
   // TODO
-  return true
+  var nearbyBusinesses = _.filter(items, function(item){
+  var loc2  = _.pick(item, ['latitude', 'longitude'])
+  var d = geolib.getDistance(loc, loc2)
+    return d/1000 < 1.5
+  })
+  //console.log(nearbyBusinesses)
+
+  var business = _.filter(nearbyBusinesses, function (business){
+    return !_.contains(business.categories, "Resturants")
+  })
+  console.log(business)
+  return business.length > 20
 }
 
-function has_some_feature_4(loc){
+function has_no_5_star_restaurants_nearby(loc){
   // TODO
-  return false
+  var nearbyBusinesses = _.filter(items, function(item){
+  var loc2  = _.pick(item, ['latitude', 'longitude'])
+  var d = geolib.getDistance(loc, loc2)
+    return d/1000 < 1.5
+  })
+  //console.log(nearbyBusinesses)
+
+  var restaurants = _.filter(nearbyBusinesses, function (business){
+    return _.contains(business.categories, "Restaurants") 
+  })
+  console.log(restaurants)
+  var stars = _.filter(restaurants, function (business){
+    return business.stars == 5
+  })
+  console.log(stars)
+  return stars.length == 0
 }
 
-function has_some_feature_5(loc){
+function has_hipster_businesses_nearby(loc){
   // TODO
-  return false
+  var nearbyBusinesses = _.filter(items, function(item){
+  var loc2  = _.pick(item, ['latitude', 'longitude'])
+  var d = geolib.getDistance(loc, loc2)
+    return d/1000 < 1.5
+  })
+
+  var hipster = _.filter(nearbyBusinesses, function (business){
+    return business.attributes && business.attributes.Ambience && business.attributes.Ambience.hipster  })
+  console.log(hipster)
+
+  return hipster.length > 0
 }
 
 //
@@ -168,18 +253,18 @@ function loadDataThenRunSolutions(){
 
       // take only the last 2000 to speed up computation
       // TODO: comment this out before the final submission
-      items = _.takeRight(items, 2000)
+      //items = _.takeRight(items, 2000)
 
       console.log('number of items loaded:', items.length)
       console.log('first item:', items[0])
 
       console.log('scoring all candidate locations')
 
-      scoreAndVisualize(locs, has_some_feature_1, visualize_true_or_false)
-      scoreAndVisualize(locs, has_some_feature_2, visualize_true_or_false)
-      scoreAndVisualize(locs, has_some_feature_3, visualize_true_or_false)
-      scoreAndVisualize(locs, has_some_feature_4, visualize_true_or_false)
-      scoreAndVisualize(locs, has_some_feature_5, visualize_true_or_false)
+      scoreAndVisualize(locs, has_no_japanese_restaurants_nearby, visualize_true_or_false)
+      scoreAndVisualize(locs, has_chinese_restaurants_nearby, visualize_true_or_false)
+      scoreAndVisualize(locs, has_non_restaurants_nearby, visualize_true_or_false)
+      scoreAndVisualize(locs, has_no_5_star_restaurants_nearby, visualize_true_or_false)
+      scoreAndVisualize(locs, has_hipster_businesses_nearby, visualize_true_or_false)
 
    })
    .fail(function(err){
