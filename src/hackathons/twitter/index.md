@@ -94,31 +94,35 @@ correctly, and also what other teams are up to in real-time.
 
 The team members who contributed to this hackathon are:
 
-- (Name)
-- (Name)
-- (Name)
-- (Name)
-- (Name)
-- (Name)
+- Heather Witte
+- Kari Santos
+- Fadhil Suhendi
+- Denis Kazakov
+- Zach Lamb
 
 ## Grading
 
 Each person must implement at least ONE detector function. It must be meaningful.
 
+
 ## Events
 
 Our team came up with the following interesting events:
 
-1. Has observed .... ? contributed by (Name)
+1. Has observed an influential tweet contributed by Kari
+How are influential tweeters talking about Russia
 
-  (one sentence justification why this event is interesting)
+2. Has observed a tweet with a Obama/Putin mentioned contributed by Heather
 
-1. Has observed .... ? contributed by (Name)
+  How are people tying world leaders to events in Russia?
 
-  (one sentence justification why this event is interesting)
+3. has observed geotagged tweets contributed by Zach
 
-1. Has observed .... ? contributed by (Name)
+  Where are users from that are tweeting about Russia
 
-  (one sentence justification why this event is interesting)
+4. Has observed verified user - By Fadhil
+   What are celebrities saying about Russia?
 
-(add more until you hit N where N is the number of people on your team)
+5. Has observed a retweeted tweet - by Denis
+   What is getting retweeted? Are certain ideas going viral? Retweets are recognized as starting with "RT".
+
