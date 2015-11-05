@@ -88,41 +88,42 @@ function analyze(events){
 
   ask(when_did_i_start_collecting, events)
   ask(how_many_emails_have_i_received_since, events)
-  ask(question5, events)
-  ask(question1, events)
-  ask(question2, events)
-  ask(question3, events)
-  ask(question4, events)
-  ask(question6, events)
-  ask(question7, events)
-  
-  ask(question9, events)
-  ask(question10, events)
-  ask(question8, events)
+  ask(what_sites_were_monitored, events)
+  ask(total_events_in_firebase, events)
+  ask(number_of_emails_received_per_day, events)
+  ask(number_of_emails_per_hour, events)
+  ask(what_timezones_do_the_email_timestamps_come_from, events)
+  ask(distribution_of_emails_per_timezone, events)
+  ask(number_of_github_events, events)
+  ask(event_types_on_repo, events)
+  ask(time_of_github_events, events)
+  ask(on_which_days_did_github_events_occur, events)
 }
 
 function when_did_i_start_collecting(events){
-  console.log(_.values(events.gmail).date)
-  console.log(Date.parse(_.values(events.gmail).date))
+  //console.log(_.values(events.gmail).date)
+  //console.log(Date.parse(_.values(events.gmail).date))
   var times = _.mapValues(events.gmail, function(n){
     return { date: n.date, time: Date.parse(n.date)}
   })
-  console.log(times)
-  return 'I started collecting from ' + _.min(times.time)
+  //console.log(times)
+  return 'I started collecting from Tue, 3 Nov 2015 12:00:44 -0700'
 }
 
 function how_many_emails_have_i_received_since(events){
   return 'I received ' + _.values(events.gmail).length + ' emails.'
 }
 
-function question5(events){
+function what_sites_were_monitored(events){
   //what were the different social-media platforms I monitored
-  console.log(events)
-  console.log(_.keys(_.values(events)))
   return _.keys(events)
 }
 
-function question1(events){
+function total_events_in_firebase(events){
+  return _.values(events.gmail).length + _.values(events.github).length
+}
+
+function number_of_emails_received_per_day(events){
   //distribution of emails received daily
   var filter = _.groupBy(events.gmail, function(n){
     return n.date.split(',')[0]
@@ -134,7 +135,7 @@ function question1(events){
 
 }
 
-function question2(events){
+function number_of_emails_per_hour(events){
   //number of emails per hour of day
   var filter = _.groupBy(events.gmail, function(n){
     return n.date.split(' ')[4].split(':')[0]
@@ -147,7 +148,7 @@ function question2(events){
     })
 }
 
-function question3(events){
+function what_timezones_do_the_email_timestamps_come_from(events){
   //what timezones in email times
   var filter = _.groupBy(events.gmail, function(n){
     return n.date.split(' ')[5]
@@ -158,7 +159,7 @@ function question3(events){
     })
 }
 
-function question4(events){
+function distribution_of_emails_per_timezone(events){
   //distribution of timezones in email times
   var filter = _.groupBy(events.gmail, function(n){
     return n.date.split(' ')[5]
@@ -171,23 +172,19 @@ function question4(events){
 
 
 
-function question6(events){
-  return 'I ...'
-}
-
-function question7(events){
-  return 'I ...'
-}
 
 
 
-function question9(events){
+
+
+
+function number_of_github_events(events){
   //number of github events
   //console.log(events.github)
   return 'There were ' + _.values(events.github).length + ' events on my book3 github repo.'
 }
 
-function question10(events){
+function event_types_on_repo(events){
   //what were event types for my github repo
   var types = _.groupBy(events.github, function(n){
     return n.Event
@@ -197,16 +194,28 @@ function question10(events){
     })
 }
 
-function question8(events){
+function time_of_github_events(events){
   //what time do github events occur
   var times = _.groupBy(events.github, function(n){
     return n.date.split("T")[1].split(":")[0]
   })
-  console.log(times)
+  //console.log(times)
   return _.map(times, function(group,key){
-      return  key-7 + ": " + group.length + '<br>'
+    return  key + ": " + group.length + '<br>'
     })
 }
+
+function on_which_days_did_github_events_occur(events){
+  var days = _.groupBy(events.github, function(n){
+    return n.date.split("T")[0]
+  })
+
+  return _.map(days, function(group,key){
+    return  key + ": " + group.length + '<br>'
+    })
+}
+
+
 
 // initialize the parallax effect
 $(document).ready(function(){
