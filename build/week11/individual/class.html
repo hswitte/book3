@@ -37,8 +37,8 @@
   <div class="parallax-container"  style="height:300px">
     <div class="parallax">
       <img src="cloud.jpg">
-      <h1 id="title">What is my online activity?
-        <div class="authors">by Heather Witte</div>
+      <h1 id="title">What is everyone in the class's activity?
+        <div class="authors">by Name</div>
       </h1>
     </div>
   </div>
@@ -57,19 +57,52 @@
   <script>
 
 // TODO: replace the FIREBAW_URL with your own
-var PERSONAL_FIREBASE_URL = 'https://hswitte-bigdata-hci.firebaseio.com/'
+var CLASS_FORKS = 'https://big-data-hci-hackathon.firebaseio.com/book3/forks'
 
 // add the personal firebase url to the class's firebase
 
-// load events from the personal firebase
-var personal_firebase = new Firebase(PERSONAL_FIREBASE_URL)
-personal_firebase
-  .child('events')
-  .on('value', function(snapshot){
-    var events = snapshot.val()
-    analyze(events)
+new Firebase(CLASS_FORKS)
+  .once('value', function(snapshot){
+    var forks  = snapshot.val()
+
+    _.forEach(forks, function(fork){
+      var individual_github_name = fork.owner.login
+      var individual_firebase_url = 'https://' + individual_github_name + '-bigdata-hci.firebaseio.com'
+      console.log('firebase url', individual_firebase_url)
+
+      new Firebase(individual_firebase_url)
+        .child('events')
+        .once('value', function(snapshot){
+          var events = snapshot.val()
+
+          handle_individual_events(individual_github_name, events)
+
+        }, function(err){
+          console.error(err)
+        })
+
+    })
+
 })
 
+// array to collect event data from all individuals
+var class_events = {}
+
+// initial call to analyze when the class_events are still empty
+analyze(class_events)
+
+// each time events data from an individual is received, this event handler is called
+function handle_individual_events(name, individual_events){
+
+  // use the me of the
+  class_events[name] = individual_events
+
+  console.log('loaded data from ' + _.values(class_events).length + ' individuals')
+
+  analyze(class_events)
+}
+
+var firstTime = true
 function ask(func, events){
   var answer = func(events)
 
@@ -84,10 +117,10 @@ function ask(func, events){
 }
 
 function analyze(events){
-  console.log(events)
+  $('#questions').html('')
 
-  ask(when_did_i_start_collecting, events)
-  ask(how_many_emails_have_i_received_since, events)
+  ask(how_many_individuals_analyzed_so_far, events)
+  ask(whose_data_is_available, events)
   ask(question1, events)
   ask(question2, events)
   ask(question3, events)
@@ -100,65 +133,54 @@ function analyze(events){
   ask(question10, events)
 }
 
-function when_did_i_start_collecting(events){
-  return 'I started collecting from [TODO: earliest timestamp].'
+function how_many_individuals_analyzed_so_far(events){
+  return _.keys(events).length
 }
 
-function how_many_emails_have_i_received_since(events){
-  return 'I received ' + _.values(events.gmail).length + ' emails.'
+function whose_data_is_available(events){
+  return _.keys(events).join(' , ')
 }
 
 function question1(events){
-  //distribution of emails received daily
-  var filter = _.groupBy(events.gmail, function(n){
-    return n.date.split(',')[0]
-  })
-  //console.log(filter)
-  return _.map(filter, function(group,key){
-      return  key + ": " + group.length + '<br>'
-    })
-
+  return '...'
 }
 
 function question2(events){
-  //emails received in morning vs. afternoon
-  return 'I ...'
+  return '...'
 }
 
 function question3(events){
-  return 'I ...'
+  return '...'
 }
 
 function question4(events){
-  //number of github events
-  console.log(events.github)
-  'There were ' + _.size(events.github)+ ' events on the book3 repo.'
+  return '...'
 }
 
 function question5(events){
-  //distribution of github event types
-  return 'I ...'
+  return '...'
 }
 
 function question6(events){
-  return 'I ...'
+  return '...'
 }
 
 function question7(events){
-  return 'I ...'
+  return '...'
 }
 
 function question8(events){
-  return 'I ...'
+  return '...'
 }
 
 function question9(events){
-  return 'I ...'
+  return '...'
 }
 
 function question10(events){
-  return 'I ...'
+  return '...'
 }
+
 
 // initialize the parallax effect
 $(document).ready(function(){
