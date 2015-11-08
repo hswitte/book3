@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Me</title>
+  <title>Class</title>
     <style>
         .answer {
             min-height: 50px
@@ -38,7 +38,7 @@
     <div class="parallax">
       <img src="cloud.jpg">
       <h1 id="title">What is everyone in the class's activity?
-        <div class="authors">by Name</div>
+        <div class="authors">by Heather Witte</div>
       </h1>
     </div>
   </div>
@@ -68,7 +68,7 @@ new Firebase(CLASS_FORKS)
     _.forEach(forks, function(fork){
       var individual_github_name = fork.owner.login
       var individual_firebase_url = 'https://' + individual_github_name + '-bigdata-hci.firebaseio.com'
-      console.log('firebase url', individual_firebase_url)
+      //console.log('firebase url', individual_firebase_url)
 
       new Firebase(individual_firebase_url)
         .child('events')
@@ -97,7 +97,7 @@ function handle_individual_events(name, individual_events){
   // use the me of the
   class_events[name] = individual_events
 
-  console.log('loaded data from ' + _.values(class_events).length + ' individuals')
+  //console.log('loaded data from ' + _.values(class_events).length + ' individuals')
 
   analyze(class_events)
 }
@@ -121,16 +121,17 @@ function analyze(events){
 
   ask(how_many_individuals_analyzed_so_far, events)
   ask(whose_data_is_available, events)
-  ask(question1, events)
-  ask(question2, events)
-  ask(question3, events)
-  ask(question4, events)
-  ask(question5, events)
-  ask(question6, events)
-  ask(question7, events)
-  ask(question8, events)
-  ask(question9, events)
-  ask(question10, events)
+  ask(who_structured_database_differently_than_me, events)
+  ask(what_activities_did_students_track, events)
+  ask(number_of_nonGmail_activities_tracked, events)
+  ask(total_events_per_person, events)
+  ask(which_activity_has_most_events, events)
+  ask(how_many_gmails, events)
+  ask(gmail_fields, events)
+  ask(first_gmail, events)
+  ask(most_recent_gmail, events)
+  ask(who_structured_database_differently_than_me, events)
+  ask(github_events, events)
 }
 
 function how_many_individuals_analyzed_so_far(events){
@@ -138,47 +139,131 @@ function how_many_individuals_analyzed_so_far(events){
 }
 
 function whose_data_is_available(events){
+  console.log(events)
   return _.keys(events).join(' , ')
 }
 
-function question1(events){
-  return '...'
+function what_activities_did_students_track(events){
+
+  var soc = _.mapValues(events, function(n){
+    return _.keys(n)
+  })
+  //console.log(soc)
+  return _.map(soc, function(group,key){
+      return  key + ": <b>" + group + '</b><br>'
+    })
 }
 
-function question2(events){
-  return '...'
+function how_many_gmails(events){
+  var gmail = _.mapValues(events, function(n){
+    if (_.contains(_.keys(n), 'gmail')) return _.size(n.gmail)
+    else return 'n/a'
+  })
+  //console.log(gmail)
+  return _.map(gmail, function(group,key){
+      return  key + ": <b>" + group + '</b><br>' 
+    })
 }
 
-function question3(events){
-  return '...'
+function first_gmail(events){
+  var gmail = _.mapValues(events, function(n){
+    if (_.contains(_.keys(n), 'gmail') && _.contains(_.keys(_.toArray(n.gmail)[0]), 'date')) return _.toArray(n.gmail)[0].date
+    else if (_.contains(_.keys(n), 'gmail') && _.contains(_.keys(_.toArray(n.gmail)[0]), 'Date')) return _.toArray(n.gmail)[0]['Date']
+    else if (_.contains(_.keys(n), 'gmail') && _.contains(_.keys(_.toArray(n.gmail)[0]), 'email_date')) return _.toArray(n.gmail)[0]['email_date']
+    else if (_.contains(_.keys(n), 'gmail') && _.contains(_.keys(_.toArray(n.gmail)[0]), 'mailReceived')) return _.toArray(n.gmail)[0]['mailReceived']
+    else return 'n/a'
+  })
+
+  return _.map(gmail, function(group,key){
+      return  key + ": <b>" + group + '</b><br>'
+    })
 }
 
-function question4(events){
-  return '...'
+function most_recent_gmail(events){
+  var gmail = _.mapValues(events, function(n){
+    if (_.contains(_.keys(n), 'gmail') && _.contains(_.keys(_.toArray(n.gmail)[0]), 'date')) return _.toArray(n.gmail)[_.size(n.gmail)-1].date
+    else if (_.contains(_.keys(n), 'gmail') && _.contains(_.keys(_.toArray(n.gmail)[0]), 'Date')) return _.toArray(n.gmail)[_.size(n.gmail)-1]['Date']
+    else if (_.contains(_.keys(n), 'gmail') && _.contains(_.keys(_.toArray(n.gmail)[0]), 'email_date')) return _.toArray(n.gmail)[_.size(n.gmail)-1]['email_date']
+    else if (_.contains(_.keys(n), 'gmail') && _.contains(_.keys(_.toArray(n.gmail)[0]), 'mailReceived')) return _.toArray(n.gmail)[_.size(n.gmail)-1]['mailReceived']
+    else return 'n/a'
+  })
+
+  return _.map(gmail, function(group,key){
+      return  key + ": <b>" + group + '</b><br>'
+    })
 }
 
-function question5(events){
-  return '...'
+function github_events(events){
+  var github = _.mapValues(events, function(n){
+    if (_.contains(_.keys(n), 'github')) return _.size(n.github)
+    else return 'n/a'
+  })
+
+  return _.map(github, function(group,key){
+      return  key + ": <b>" + group + '</b><br>' 
+    })
 }
 
-function question6(events){
-  return '...'
+function gmail_fields(events){
+  var gmail = _.mapValues(events, function(n){
+    if (_.contains(_.keys(n), 'gmail')) return _.keys(_.toArray(n.gmail)[0])
+    else return 'n/a'
+  })
+  //console.log(gmail)
+  return _.map(gmail, function(group,key){
+      return  key + ": <b>" + group + '</b><br>' 
+    })
 }
 
-function question7(events){
-  return '...'
+function number_of_nonGmail_activities_tracked(events){
+  var soc = _.mapValues(events, function(n){
+    return _.toArray(_.keys(n))
+  })
+  //console.log(soc)
+  return _.map(soc, function(group,key){
+      //console.log(group)
+      if (_.contains(group, 'gmail')) return  key + ": <b>" + (group.length-1) + '</b><br>'
+      else return  key + ": <b>" + group.length + '</b><br>'
+    }) 
 }
 
-function question8(events){
-  return '...'
+function total_events_per_person(events){
+
+  var soc = _.mapValues(events, function(n){
+    return _.sum(_.pairs(n), function(d){
+      return _.values(d[1]).length
+    })
+  })
+
+  return _.map(soc, function(group,key){
+      return  key + ": <b>" + group + '</b><br>' 
+    })
 }
 
-function question9(events){
-  return '...'
+function which_activity_has_most_events(events){
+  var soc = _.mapValues(events, function(n){
+    return _.max(_.pairs(n), function(d){
+      return _.values(d[1]).length
+    })
+  })
+  //console.log(soc)
+  return _.map(soc, function(group,key){
+      return  key + ": <b>" + group[0] + '</b><br>' 
+    })
 }
 
-function question10(events){
-  return '...'
+function who_structured_database_differently_than_me(events){
+  var gmail = _.mapValues(events, function(n){
+    if (_.contains(_.keys(n), 'gmail') && _.contains(_.keys(_.toArray(n.gmail)[0]), 'date')) return false
+    else if (_.contains(_.keys(n), 'gmail') && _.contains(_.keys(_.toArray(n.gmail)[0]), 'Date')) return false
+    else if (_.contains(_.keys(n), 'gmail') && _.contains(_.keys(_.toArray(n.gmail)[0]), 'email_date')) return false
+    else if (_.contains(_.keys(n), 'gmail') && _.contains(_.keys(_.toArray(n.gmail)[0]), 'mailReceived')) return false
+    else return true
+  })
+
+  return _.map(gmail, function(group,key){
+      return  key + ": <b>" + group + '</b><br>'
+    })
 }
 
 
